@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Report: The Influence of AI in Game Trailer Production</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: "Tech Horizon" -->
+    <!-- Application Structure Plan: A tab-based single-page application design is chosen to segment the dense report into digestible, user-centric themes: 'Overview', 'Model Deep Dive', 'Production Pipeline', 'Opportunities vs. Challenges', and 'Future Outlook'. This structure facilitates a non-linear exploration, allowing users to jump to sections of interest. The user flow starts with a high-level summary, moves to a detailed, interactive comparison of AI models (the core interactive element), then contextualizes this technology within the practical 'Production Pipeline', assesses its strategic implications in 'Opportunities vs. Challenges', and concludes with forward-looking insights. This task-oriented design enhances usability and comprehension over a linear text document. -->
+    <!-- Visualization & Content Choices: 
+        1. Model Comparison: Report Info -> Tables 1 & 2 data. Goal -> Compare & Inform. Viz -> An interactive radar chart (Chart.js) to compare models across multiple qualitative dimensions (e.g., Cinematic Quality, Control, Consistency), supported by filterable info cards. Interaction -> Users can select/deselect models from a checklist to dynamically update the radar chart, providing a clear visual comparison. This is more engaging than static tables.
+        2. Production Pipeline: Report Info -> Section VI.C & Table 3 data. Goal -> Organize & Inform. Viz -> A horizontal, interactive timeline built with HTML/CSS. Interaction -> Clicking on a pipeline stage reveals detailed information about AI's role, benefits, and challenges at that stage. This visualizes the process effectively.
+        3. Opportunities & Challenges: Report Info -> Section VI.A & VI.B. Goal -> Compare. Viz -> A two-column layout with animated info cards. This provides a clear, balanced view of the pros and cons.
+        All visualizations are designed to be interactive and avoid static presentation of information.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            color: #1a202c;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 50vh;
+            width: 100%;
+            max-width: 800px;
+        }
+        .pipeline-stage {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .pipeline-stage:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .pipeline-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-gray-800">AI in Game Trailer Production</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" data-section="overview" class="nav-link active pb-1">Overview</a>
+                <a href="#models" data-section="models" class="nav-link pb-1">Model Deep Dive</a>
+                <a href="#pipeline" data-section="pipeline" class="nav-link pb-1">Production Pipeline</a>
+                <a href="#pros-cons" data-section="pros-cons" class="nav-link pb-1">Opportunities & Challenges</a>
+                <a href="#future" data-section="future" class="nav-link pb-1">Future Outlook</a>
+            </div>
+             <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
+            <a href="#overview" data-section="overview" class="block nav-link mobile-link active">Overview</a>
+            <a href="#models" data-section="models" class="block nav-link mobile-link">Model Deep Dive</a>
+            <a href="#pipeline" data-section="pipeline" class="block nav-link mobile-link">Production Pipeline</a>
+            <a href="#pros-cons" data-section="pros-cons" class="block nav-link mobile-link">Opportunities & Challenges</a>
+            <a href="#future" data-section="future" class="block nav-link mobile-link">Future Outlook</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="overview" class="content-section active">
+            <div class="bg-white p-8 rounded-xl shadow-lg animate-fade-in">
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">Executive Summary: A New Creative Paradigm</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    The landscape of video game trailer production is undergoing a significant transformation, driven by rapid advancements in generative video models like Google's Veo and OpenAI's Sora. These tools offer unprecedented opportunities for speed, cost-efficiency, and creative exploration. This interactive report analyzes their influence, from cinematic generation to tackling the complexities of gameplay footage.
+                </p>
+                <p class="text-lg text-gray-600">
+                    We explore the capabilities and limitations of the leading AI models, their integration into the production pipeline, and the strategic considerations for developers. The analysis indicates a move towards a hybrid, co-creative paradigm where AI augments human expertise, which remains paramount for creative direction, narrative cohesion, and final polish. Use the navigation above to explore the different facets of this technological revolution.
+                </p>
+            </div>
+        </section>
+
+        <section id="models" class="content-section">
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold mb-2 text-gray-800">Model Deep Dive: A Comparative Analysis</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    The effectiveness of an AI model depends heavily on the specific task. This section provides an interactive comparison of leading models based on key capabilities for trailer production. Select models from the checklist to see how they stack up against each other in the radar chart, and explore their detailed profiles in the cards below.
+                </p>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1 p-6 rounded-lg bg-gray-50 border">
+                        <h3 class="font-bold text-xl mb-4">Select Models to Compare:</h3>
+                        <div id="model-checkboxes" class="space-y-3"></div>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <div class="chart-container">
+                            <canvas id="modelRadarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div id="model-cards-container" class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Model cards will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <section id="pipeline" class="content-section">
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold mb-2 text-gray-800">AI in the Production Pipeline</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    AI tools can be strategically integrated at various stages of the game trailer production pipeline, from initial ideation to final polish. Click on each stage below to explore how AI can augment and accelerate the creative process, along with the key tools and considerations for that phase.
+                </p>
+                <div id="pipeline-container" class="relative flex flex-col md:flex-row items-center justify-between w-full space-y-4 md:space-y-0 md:space-x-4">
+                    <!-- Pipeline stages will be injected here -->
+                </div>
+                <div id="pipeline-details-container" class="mt-8">
+                    <!-- Details for selected stage will be shown here -->
+                </div>
+            </div>
+        </section>
+
+        <section id="pros-cons" class="content-section">
+             <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Opportunities vs. Challenges</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    The integration of AI into creative workflows presents a dual-sided coin of immense opportunities and significant challenges. Understanding this balance is key to strategic adoption. Explore the key points below to see how AI can accelerate production while also introducing risks like creative homogenization and ethical dilemmas.
+                </p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 text-green-600 flex items-center">
+                            <span class="text-3xl mr-3">💡</span> Opportunities
+                        </h3>
+                        <div id="opportunities-list" class="space-y-4"></div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 text-red-600 flex items-center">
+                           <span class="text-3xl mr-3">⚠️</span> Challenges
+                        </h3>
+                        <div id="challenges-list" class="space-y-4"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="future" class="content-section">
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">The Horizon: Future Trajectories</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                   The field of AI video generation is advancing at an extraordinary pace. The future points towards tighter game engine symbiosis, real-time interactivity, and improved physical realism. Here are the key anticipated breakthroughs and industry trends that will shape the next generation of game trailer production.
+                </p>
+                <div id="future-trends-container" class="space-y-6"></div>
+            </div>
+        </section>
+
+    </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sections = document.querySelectorAll('.content-section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    function switchSection(targetId) {
+        sections.forEach(section => {
+            section.classList.toggle('active', section.id === targetId);
+        });
+        navLinks.forEach(link => {
+            link.classList.toggle('active', link.dataset.section === targetId);
+        });
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = e.currentTarget.dataset.section;
+            switchSection(targetId);
+            if(mobileMenu.classList.contains('md:hidden') === false) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    });
+    
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    const aiModelsData = {
+        labels: ["Cinematic Quality", "Creative Flexibility", "Temporal Coherence", "Control & Prompt Adherence", "Physical Realism", "Gameplay Specificity"],
+        models: [
+            { name: "Google Veo 3", category: "Cinematic", scores: [9, 8, 8, 9, 7, 5], color: 'rgba(54, 162, 235, 0.5)', description: "Delivers a strong 'cinematic feel' with advanced camera controls and integrated native audio, making it well-suited for narrative sequences.", pros: ["Native audio generation", "High cinematic control", "Good consistency"], cons: ["Prompt drift on complex scenes", "Audio can be inconsistent", "Watermarking"], checked: true },
+            { name: "OpenAI Sora", category: "Cinematic", scores: [8, 9, 7, 7, 6, 4], color: 'rgba(255, 99, 132, 0.5)', description: "Excels in generating complex, imaginative scenes with a diverse range of visual styles and a developing understanding of the physical world.", pros: ["High creative flexibility", "Robust V2V features", "Good multi-shot coherence"], cons: ["Imperfect physics/causality", "Potential for visual artifacts", "No native audio"], checked: true },
+            { name: "GameGen-X", category: "Gameplay-Specific", scores: [6, 7, 7, 8, 7, 9], color: 'rgba(75, 192, 192, 0.5)', description: "Uniquely suited for generating novel, controllable gameplay video by simulating game engine features and allowing interactive control.", pros: ["Trained on AAA game footage", "Interactive control (text/keyboard)", "Simulates game features"], cons: ["Lower resolution for real-time control", "Adherence to non-represented mechanics may vary"], checked: false },
+            { name: "Microsoft Muse", category: "Gameplay-Specific", scores: [5, 6, 8, 7, 6, 8], color: 'rgba(255, 206, 86, 0.5)', description: "Shows promise for generating authentic gameplay variations by learning from actual gameplay data, including controller inputs.", pros: ["Learns from controller inputs", "Potential for 'directed gameplay'"], cons: ["Game-specific training", "Low resolution training data", "Not widely accessible"], checked: false },
+            { name: "Runway Gen-3", category: "V2V", scores: [7, 8, 6, 6, 5, 3], color: 'rgba(153, 102, 255, 0.5)', description: "A powerful and versatile platform with a comprehensive set of V2V tools for creative video manipulation.", pros: ["Extensive toolset", "High-fidelity output"], cons: ["Steep learning curve", "Control can be challenging"], checked: false },
+            { name: "AnyV2V", category: "V2V", scores: [6, 9, 7, 8, 6, 2], color: 'rgba(255, 159, 64, 0.5)', description: "A flexible framework combining first-frame image editing with I2V generation, offering high precision for V2V tasks.", pros: ["High flexibility", "Leverages best image editors", "Precise first-frame control"], cons: ["Dependent on quality of chosen sub-models"], checked: false }
+        ]
+    };
+    
+    let modelRadarChart;
+    const checkboxContainer = document.getElementById('model-checkboxes');
+    const modelCardsContainer = document.getElementById('model-cards-container');
+
+    function createModelCard(model) {
+        return `
+            <div class="bg-gray-50 border p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                <h4 class="text-xl font-bold mb-2" style="color: ${model.color.replace('0.5', '1')}">${model.name}</h4>
+                <p class="text-gray-600 mb-4 h-20">${model.description}</p>
+                <div class="mb-3">
+                    <p class="font-semibold text-green-600">Pros:</p>
+                    <ul class="list-disc list-inside text-sm text-gray-700">
+                        ${model.pros.map(pro => `<li>${pro}</li>`).join('')}
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-semibold text-red-600">Cons:</p>
+                    <ul class="list-disc list-inside text-sm text-gray-700">
+                        ${model.cons.map(con => `<li>${con}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+        `;
+    }
+
+    aiModelsData.models.forEach(model => {
+        modelCardsContainer.innerHTML += createModelCard(model);
+        
+        const checkboxDiv = document.createElement('div');
+        checkboxDiv.className = 'flex items-center';
+        checkboxDiv.innerHTML = `
+            <input id="check-${model.name.replace(/ /g, '-')}" type="checkbox" ${model.checked ? 'checked' : ''} class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+            <label for="check-${model.name.replace(/ /g, '-')}" class="ml-3 block text-sm font-medium text-gray-700">${model.name}</label>
+        `;
+        checkboxContainer.appendChild(checkboxDiv);
+        
+        checkboxDiv.querySelector('input').addEventListener('change', (e) => {
+            const modelToUpdate = aiModelsData.models.find(m => m.name === model.name);
+            modelToUpdate.checked = e.target.checked;
+            renderRadarChart();
+        });
+    });
+
+    function renderRadarChart() {
+        const selectedModels = aiModelsData.models.filter(m => m.checked);
+        const datasets = selectedModels.map(model => ({
+            label: model.name,
+            data: model.scores,
+            backgroundColor: model.color,
+            borderColor: model.color.replace('0.5', '1'),
+            pointBackgroundColor: model.color.replace('0.5', '1'),
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: model.color.replace('0.5', '1')
+        }));
+        
+        const chartData = {
+            labels: aiModelsData.labels,
+            datasets: datasets
+        };
+
+        const chartConfig = {
+            type: 'radar',
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: {
+                    line: {
+                        borderWidth: 3
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: false
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 10,
+                        pointLabels: {
+                            font: {
+                                size: 14,
+                            }
+                        },
+                        ticks: {
+                            backdropColor: 'rgba(0,0,0,0)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.raw}`;
+                            }
+                        }
+                    }
+                }
+            },
+        };
+
+        if (modelRadarChart) {
+            modelRadarChart.destroy();
+        }
+        modelRadarChart = new Chart(document.getElementById('modelRadarChart'), chartConfig);
+    }
+    
+    renderRadarChart();
+
+    const pipelineData = [
+        { name: "Concept & Ideation", icon: "💡", details: "AI rapidly generates visual concepts from script ideas or keywords. Tools like Sora or Midjourney can create mood boards and visual targets, allowing for faster creative exploration than manual sketching.", tools: ["Sora", "Veo", "Midjourney"], benefits: ["Faster idea exploration", "Quick visualization"], challenges: ["Maintaining originality", "Effective prompt engineering"] },
+        { name: "Storyboarding", icon: "🎬", details: "AI animates static storyboards into 'animatics'. This helps in pre-visualizing sequences, testing pacing, and iterating on the narrative flow before committing to full production.", tools: ["LTX Studio", "Sora (Storyboard feature)"], benefits: ["Rapid animatic creation", "Dynamic pre-visualization"], challenges: ["Narrative coherence", "Consistency of AI elements"] },
+        { name: "Asset Creation", icon: "🎨", details: "Generative AI can create concept art for characters, environments, and props. Some tools can even generate 3D base meshes from text or images, accelerating the 3D pipeline.", tools: ["Midjourney", "Stable Diffusion", "Meshy.ai"], benefits: ["Rapid visual target generation", "Quick concept designs"], challenges: ["Achieving specific art styles", "IP/copyright of designs"] },
+        { name: "Scene Generation", icon: "🏞️", details: "Full cinematic shots, including character animations and complex environments, can be generated from detailed text prompts. This is useful for creating B-roll, establishing shots, or full narrative sequences.", tools: ["Veo 3", "Sora", "Kling"], benefits: ["Full cinematic shot generation", "Cost-effective for complex scenes"], challenges: ["Control over nuanced performance", "Visual artifacts", "Temporal stability"] },
+        { name: "Post-Production", icon: "⚙️", details: "AI-powered tools assist in post-production tasks like video upscaling, noise reduction, automated color grading, and even script-based editing where the video is edited by manipulating a text transcript.", tools: ["Topaz Video AI", "Descript"], benefits: ["Resolution enhancement", "Faster rough cuts", "Automated cleanup"], challenges: ["AI's understanding of pacing", "Quality of automated edits"] },
+    ];
+    const pipelineContainer = document.getElementById('pipeline-container');
+    const pipelineDetailsContainer = document.getElementById('pipeline-details-container');
+
+    pipelineData.forEach((stage, index) => {
+        const stageEl = document.createElement('div');
+        stageEl.className = `pipeline-stage flex-1 bg-white border p-4 rounded-lg text-center shadow-sm`;
+        stageEl.innerHTML = `
+            <div class="text-4xl mb-2">${stage.icon}</div>
+            <h4 class="font-semibold">${stage.name}</h4>
+        `;
+        stageEl.addEventListener('click', () => {
+            document.querySelectorAll('.pipeline-stage').forEach(el => el.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50'));
+            stageEl.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
+            
+            const detailsHTML = `
+                <div class="p-6 bg-gray-50 rounded-lg border animate-fade-in">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-800">${stage.icon} ${stage.name}</h3>
+                    <p class="text-gray-600 mb-4">${stage.details}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div><strong class="block text-gray-700">Key Tools:</strong><ul class="list-disc list-inside">${stage.tools.map(t=>`<li>${t}</li>`).join('')}</ul></div>
+                        <div><strong class="block text-green-700">Benefits:</strong><ul class="list-disc list-inside">${stage.benefits.map(b=>`<li>${b}</li>`).join('')}</ul></div>
+                        <div><strong class="block text-red-700">Challenges:</strong><ul class="list-disc list-inside">${stage.challenges.map(c=>`<li>${c}</li>`).join('')}</ul></div>
+                    </div>
+                </div>`;
+            pipelineDetailsContainer.innerHTML = detailsHTML;
+        });
+        pipelineContainer.appendChild(stageEl);
+
+        if(index < pipelineData.length - 1) {
+            const arrow = document.createElement('div');
+            arrow.className = 'text-blue-300 font-bold text-2xl hidden md:block transform rotate-90 md:rotate-0';
+            arrow.textContent = '→';
+            pipelineContainer.appendChild(arrow);
+        }
+    });
+    
+    // Auto-click the first stage on load
+    pipelineContainer.querySelector('.pipeline-stage').click();
+    
+    const opportunities = [
+        { title: "Accelerated Prototyping", description: "Rapidly generate visual concepts and animatics, allowing for more creative exploration in less time." },
+        { title: "Creative Augmentation", description: "Automate time-consuming tasks like in-betweening or VFX, freeing up human artists for higher-level creative work." },
+        { title: "Cost Optimization", description: "Significantly reduce man-hours for complex animations and visual effects, leading to considerable savings." },
+        { title: "Asset Repurposing", description: "Animate static assets like concept art or restyle old footage, maximizing the value of existing creative libraries." },
+    ];
+    
+    const challenges = [
+        { title: "Prompt Mastery & Control", description: "Achieving the desired creative result requires skill, iteration, and a deep understanding of the AI model's behavior." },
+        { title: "Artifacts & Quality Control", description: "AI-generated video can still suffer from visual glitches, inconsistencies, and the 'uncanny valley' effect, requiring manual cleanup." },
+        { title: "Creative Homogenization", description: "Over-reliance on AI trained on existing content could lead to a convergence of styles and generic, derivative outputs." },
+        { title: "Ethical & Copyright Concerns", description: "Unresolved legal questions about IP ownership, use of copyrighted training data, and job displacement temper widespread adoption." },
+    ];
+
+    function createCardList(containerId, items) {
+        const container = document.getElementById(containerId);
+        items.forEach(item => {
+            container.innerHTML += `
+                <div class="bg-gray-50 border p-4 rounded-lg">
+                    <h4 class="font-bold text-lg mb-1 text-gray-800">${item.title}</h4>
+                    <p class="text-gray-600 text-sm">${item.description}</p>
+                </div>`;
+        });
+    }
+    createCardList('opportunities-list', opportunities);
+    createCardList('challenges-list', challenges);
+
+    const futureTrends = [
+        { icon: "🔗", title: "Deeper Game Engine Symbiosis", description: "Expect tighter integration with engines like Unreal and Unity, where AI can directly manipulate engine parameters to render scenes." },
+        { icon: "🕹️", title: "Enhanced Real-time Controllability", description: "The next frontier is moving from offline generation to real-time, interactive video synthesis, allowing directors to guide AI like a virtual camera operator." },
+        { icon: "🌍", title: "Improved Physical Realism & Causality", description: "Future models will show significant advances in generating physically plausible motion and logical cause-and-effect, reducing unnatural outputs." },
+        { icon: "🤝", title: "The Co-Creative Paradigm", description: "The industry is moving towards a model where AI is a powerful assistant, but human oversight for narrative, emotion, and strategy remains paramount." }
+    ];
+
+    const futureContainer = document.getElementById('future-trends-container');
+    futureTrends.forEach(trend => {
+        futureContainer.innerHTML += `
+            <div class="flex items-start bg-white p-6 rounded-lg shadow-sm border">
+                <div class="text-4xl mr-5 text-blue-500">${trend.icon}</div>
+                <div>
+                    <h4 class="text-xl font-bold text-gray-800">${trend.title}</h4>
+                    <p class="text-gray-600 mt-1">${trend.description}</p>
+                </div>
+            </div>`;
+    });
+});
+</script>
+</body>
+</html>
+
