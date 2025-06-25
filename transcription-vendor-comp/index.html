@@ -11,59 +11,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            color: #1a202c;
-        }
-        .nav-link {
-            transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
-            padding-bottom: 4px;
-        }
-        .nav-link.active, .nav-link:hover {
-            color: #3b82f6;
-            border-bottom-color: #3b82f6;
-        }
-        .content-section {
-            display: none;
-        }
-        .content-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .chart-container {
-            position: relative;
-            margin: auto;
-            height: 60vh;
-            width: 100%;
-        }
-        /* Custom styles for slider */
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #3b82f6;
-            cursor: pointer;
-            margin-top: -8px; 
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            cursor: pointer;
-            background: #d1d5db;
-            border-radius: 5px;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; color: #1a202c; }
+        .nav-link { transition: all 0.3s ease; border-bottom: 2px solid transparent; padding-bottom: 4px; }
+        .nav-link.active, .nav-link:hover { color: #3b82f6; border-bottom-color: #3b82f6; }
+        .content-section { display: none; }
+        .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .chart-container { position: relative; margin: auto; height: 70vh; width: 100%; }
+        /* Custom checkbox styling */
+        .custom-checkbox:checked { background-color: #3b82f6; border-color: #3b82f6; }
+        .custom-checkbox:checked::after { content: '✓'; color: white; display: block; text-align: center; line-height: 1.25rem; font-size: 0.8rem;}
     </style>
 </head>
 <body class="antialiased">
@@ -71,21 +28,21 @@
     <header class="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-bold text-gray-800">Call Center Transcription Analysis</h1>
-            <div class="hidden md:flex space-x-6">
+            <div class="hidden lg:flex space-x-6">
                 <a href="#overview" data-section="overview" class="nav-link active">Overview</a>
+                <a href="#cost-analysis" data-section="cost-analysis" class="nav-link">Interactive Cost Calculator</a>
                 <a href="#features" data-section="features" class="nav-link">Feature Comparison</a>
-                <a href="#cost-analysis" data-section="cost-analysis" class="nav-link">Interactive Cost Analysis</a>
                 <a href="#performance" data-section="performance" class="nav-link">Performance & Deployment</a>
                 <a href="#profiles" data-section="profiles" class="nav-link">Provider Deep Dive</a>
             </div>
-            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+             <button id="mobile-menu-button" class="lg:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2">
+        <div id="mobile-menu" class="hidden lg:hidden px-6 pt-2 pb-4 space-y-2">
             <a href="#overview" data-section="overview" class="block nav-link mobile-link active">Overview</a>
+            <a href="#cost-analysis" data-section="cost-analysis" class="block nav-link mobile-link">Interactive Cost Calculator</a>
             <a href="#features" data-section="features" class="block nav-link mobile-link">Feature Comparison</a>
-            <a href="#cost-analysis" data-section="cost-analysis" class="block nav-link mobile-link">Interactive Cost Analysis</a>
             <a href="#performance" data-section="performance" class="block nav-link mobile-link">Performance & Deployment</a>
             <a href="#profiles" data-section="profiles" class="block nav-link mobile-link">Provider Deep Dive</a>
         </div>
@@ -94,300 +51,193 @@
     <main class="container mx-auto p-4 md:p-8">
         
         <section id="overview" class="content-section active">
-            <div class="bg-white p-8 rounded-xl shadow-lg">
+             <div class="bg-white p-8 rounded-xl shadow-lg">
                 <h2 class="text-3xl font-bold mb-4 text-gray-800">Unlocking Conversational Intelligence</h2>
-                <p class="text-lg text-gray-600 mb-6">
-                    Modern call centers are leveraging speech-to-text transcription not just for record-keeping, but as a gateway to profound business insights. By converting unstructured audio into analyzable text, organizations can deploy a suite of AI-powered tools for sentiment analysis, compliance monitoring, and quality assurance. This shift transforms every customer conversation into a valuable data point.
-                </p>
-                <p class="text-lg text-gray-600">
-                    This interactive report provides a comprehensive analysis of the leading audio transcription services, comparing cloud giants like AWS, Google, and Microsoft against specialized API providers such as Deepgram and AssemblyAI. We will dissect their features, performance, security, and—most critically—their complex pricing models to provide a clear, data-driven comparison.
-                </p>
-            </div>
-        </section>
-
-        <section id="features" class="content-section">
-            <div class="bg-white p-8 rounded-xl shadow-lg">
-                <h2 class="text-3xl font-bold mb-2 text-gray-800">Core vs. Advanced Features</h2>
-                <p class="text-lg text-gray-600 mb-8">
-                    All providers cover the basics of transcription and speaker diarization. The key differentiators lie in advanced, value-add analytics features. The table below provides a comprehensive at-a-glance comparison.
-                </p>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Provider</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Diarization</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Sentiment Analysis</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Toxicity Detection</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">PII Redaction</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Summarization</th>
-                            </tr>
-                        </thead>
-                        <tbody id="features-table-body" class="bg-white divide-y divide-gray-200">
-                            </tbody>
-                    </table>
-                </div>
+                <p class="text-lg text-gray-600 mb-6">Modern call centers are leveraging speech-to-text transcription not just for record-keeping, but as a gateway to profound business insights. By converting unstructured audio into analyzable text, organizations can deploy a suite of AI-powered tools for sentiment analysis, compliance monitoring, and quality assurance. This shift transforms every customer conversation into a valuable data point.</p>
+                <p class="text-lg text-gray-600">This interactive report provides a comprehensive analysis of the leading audio transcription services. The centerpiece is the **Interactive Cost Calculator**, a powerful tool designed to model complex pricing based on your specific operational needs. Explore the tabs to compare features, performance, and provider profiles.</p>
             </div>
         </section>
 
         <section id="cost-analysis" class="content-section">
             <div class="bg-white p-8 rounded-xl shadow-lg">
-                <h2 class="text-3xl font-bold mb-2 text-gray-800">Interactive Cost Analysis</h2>
-                <p class="text-lg text-gray-600 mb-8">
-                    Pricing models are complex, with varying per-minute rates, volume tiers, and add-on fees. Use the controls below to model your specific needs. Adjust the monthly audio volume and select required features to see a real-time comparison of estimated monthly costs across providers.
-                </p>
+                <h2 class="text-3xl font-bold mb-2 text-gray-800">Interactive Cost Calculator</h2>
+                <p class="text-lg text-gray-600 mb-8">Model your call center's specific needs to generate a precise cost comparison. Adjust vendors, call volume, and required features to see how pricing stacks up across providers in real-time.</p>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 bg-gray-50 border rounded-lg mb-8">
-                    <div class="lg:col-span-2">
-                        <label for="hours-slider" class="block font-medium text-gray-700">Monthly Audio Volume: <span id="hours-label" class="font-bold text-blue-600">500</span> hours</label>
-                        <input id="hours-slider" type="range" min="100" max="20000" value="500" step="100" class="w-full mt-2">
-                    </div>
+                <div class="bg-gray-50 border rounded-lg p-6 mb-8 space-y-6">
                     <div>
-                        <label class="block font-medium text-gray-700 mb-2">Required Add-on Features:</label>
-                        <div id="addons-checkboxes" class="flex flex-wrap gap-x-6 gap-y-2">
+                        <label class="block font-medium text-gray-700 mb-3">1. Select Vendors to Compare</label>
+                        <div id="vendor-checkboxes" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                         <div>
+                            <label for="call-volume" class="block font-medium text-gray-700 mb-3">2. Enter Call Volume</label>
+                            <div class="flex">
+                                <input id="call-volume" type="number" value="10000" class="w-full p-2 border border-gray-300 rounded-l-md focus:ring-blue-500 focus:border-blue-500">
+                                <select id="time-unit" class="p-2 border-t border-b border-r border-gray-300 rounded-r-md bg-gray-100">
+                                    <option value="month">Hours/Month</option>
+                                    <option value="day">Hours/Day</option>
+                                    <option value="year">Hours/Year</option>
+                                </select>
                             </div>
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-3">3. Select Add-on Features</label>
+                            <div id="addons-checkboxes" class="flex flex-wrap gap-x-6 gap-y-3"></div>
+                        </div>
+                    </div>
+                     <div>
+                        <label class="block font-medium text-gray-700 mb-3">4. Provider-Specific Options</label>
+                        <div class="flex flex-wrap gap-x-8 gap-y-4 text-sm" id="special-options-container"></div>
                     </div>
                 </div>
 
-                <div class="chart-container">
-                    <canvas id="cost-chart"></canvas>
-                </div>
-                
-                <h3 class="text-2xl font-bold mt-12 mb-4 text-gray-800">Detailed Cost Breakdown</h3>
-                <div id="cost-breakdown-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                    <div class="xl:col-span-2">
+                         <div class="chart-container">
+                            <canvas id="cost-chart"></canvas>
+                        </div>
                     </div>
+                    <div class="xl:col-span-1">
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">Estimated Cost Breakdown</h3>
+                        <div id="cost-breakdown-container" class="space-y-4 max-h-[70vh] overflow-y-auto pr-2"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="content-section">
+             <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold mb-2 text-gray-800">Core vs. Advanced Features</h2>
+                <p class="text-lg text-gray-600 mb-8">All providers cover the basics of transcription and speaker diarization. The key differentiators lie in advanced, value-add analytics features. The table below provides a comprehensive at-a-glance comparison.</p>
+                <div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-200"><thead class="bg-gray-50"><tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Provider</th><th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Speaker ID/Diarization</th><th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Sentiment Analysis</th><th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Toxicity Detection</th><th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">PII Redaction</th><th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Summarization</th></tr></thead><tbody id="features-table-body" class="bg-white divide-y divide-gray-200"></tbody></table></div>
             </div>
         </section>
 
         <section id="performance" class="content-section">
-            <div class="bg-white p-8 rounded-xl shadow-lg">
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">Performance & Deployment</h2>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-4 text-gray-800 flex items-center"><span class="text-3xl mr-3">⚡</span>Real-Time Performance</h3>
-                        <div class="space-y-4">
-                           <div class="bg-gray-50 border p-4 rounded-lg"><h4 class="font-bold text-lg text-gray-800">Specialized Providers (e.g., Deepgram, AssemblyAI)</h4><p class="text-gray-600 mt-1">Excel in low-latency streaming, achieving sub-500ms response times ideal for real-time agent-assist applications.</p></div>
-                           <div class="bg-gray-50 border p-4 rounded-lg"><h4 class="font-bold text-lg text-gray-800">Major Cloud Platforms (e.g., AWS, Google)</h4><p class="text-gray-600 mt-1">Offer robust streaming with slightly higher default latency (1-3 seconds), which is sufficient for most post-call analysis and many real-time use cases.</p></div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold mb-4 text-gray-800 flex items-center"><span class="text-3xl mr-3">🏢</span>Deployment Flexibility</h3>
-                        <div class="space-y-4">
-                           <div class="bg-gray-50 border p-4 rounded-lg"><h4 class="font-bold text-lg text-gray-800">Cloud API (All Major Providers)</h4><p class="text-gray-600 mt-1">The standard, fully-managed offering. Provides maximum ease-of-use and scalability with usage-based pricing.</p></div>
-                           <div class="bg-gray-50 border p-4 rounded-lg"><h4 class="font-bold text-lg text-gray-800">On-Premises Engine (Deepgram, Speechmatics, IBM)</h4><p class="text-gray-600 mt-1">Offers maximum data control and security by allowing you to run the transcription engine within your own private infrastructure.</p></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg"><h2 class="text-3xl font-bold mb-6 text-gray-800">Performance & Deployment</h2><div class="grid grid-cols-1 lg:grid-cols-2 gap-12"><div><h3 class="text-2xl font-bold mb-4 text-gray-800 flex items-center"><span class="text-3xl mr-3">⚡</span>Real-Time Performance</h3><div class="space-y-4"><div class="bg-gray-50 border p-4 rounded-lg"><h4 class="font-bold text-lg text-gray-800">Specialized Providers (e.g., Deepgram, AssemblyAI)</h4><p class="text-gray-600 mt-1">Excel in low-latency streaming, achieving sub-500ms response times ideal for real-time agent-assist applications.</p></div><div class="bg-gray-50 border p-4 rounded-lg"><h4 class="font-bold text-lg text-gray-800">Major Cloud Platforms (e.g., AWS, Google)</h4><p class="text-gray-600 mt-1">Offer robust streaming with slightly higher default latency (1-3 seconds), sufficient for most post-call analysis and many real-time use cases.</p></div></div></div><div><h3 class="text-2xl font-bold mb-4 text-gray-800 flex items-center"><span class="text-3xl mr-3">🏢</span>Deployment Flexibility</h3><div class="space-y-4"><div class="bg-gray-50 border p-4 rounded-lg"><h4 class="font-bold text-lg text-gray-800">Cloud API (All Major Providers)</h4><p class="text-gray-600 mt-1">The standard, fully-managed offering. Provides maximum ease-of-use and scalability with usage-based pricing.</p></div><div class="bg-gray-50 border p-4 rounded-lg"><h4 class="font-bold text-lg text-gray-800">On-Premises Engine (Deepgram, Speechmatics, IBM)</h4><p class="text-gray-600 mt-1">Offers maximum data control and security by allowing you to run the transcription engine within your own private infrastructure.</p></div></div></div></div></div>
         </section>
 
         <section id="profiles" class="content-section">
-            <div class="bg-white p-8 rounded-xl shadow-lg">
-                 <h2 class="text-3xl font-bold mb-8 text-gray-800">Provider Deep Dive</h2>
-                <div class="flex flex-col md:flex-row gap-8">
-                    <div id="profile-tabs" class="flex md:flex-col md:border-r md:pr-6 space-x-2 md:space-x-0 md:space-y-2 overflow-x-auto pb-2 shrink-0"></div>
-                    <div id="profile-content" class="flex-grow min-w-0"></div>
-                </div>
-            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg"><h2 class="text-3xl font-bold mb-8 text-gray-800">Provider Deep Dive</h2><div class="flex flex-col md:flex-row gap-8"><div id="profile-tabs" class="flex md:flex-col md:border-r md:pr-6 space-x-2 md:space-x-0 md:space-y-2 overflow-x-auto pb-2 shrink-0"></div><div id="profile-content" class="flex-grow min-w-0"></div></div></div>
         </section>
-
     </main>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // --- Navigation Logic ---
-    const sections = document.querySelectorAll('.content-section');
-    const navLinks = document.querySelectorAll('.nav-link');
+    // --- Data Store (from user-provided table) ---
+    const providerData = {
+        'Amazon Transcribe': {
+            id: 'aws',
+            color: '#FF9900',
+            tiers: [ { upTo: 250000, rate: 0.024 }, { upTo: 1000000, rate: 0.015 }, { upTo: Infinity, rate: 0.0102 } ],
+            addons: { pii: 0.0024, summarization: 0.0024, toxicity: 0.0036, sentiment: 0.0001, speaker_id: 0 },
+            bundles: { call_analytics: { rate: 0.03, upTo: 250000 } },
+            features: { speaker_id: 'Included', sentiment: '~$0.001/1k chars', toxicity: '✔', pii: '✔', summarization: '✔' },
+            profile: { pros: ["Seamless AWS ecosystem integration", "All-in-one Call Analytics API", "Strong compliance & scale"], cons: ["Higher base cost", "Voice ID is a separate service", "May require custom vocabulary for top accuracy"], bestFor: "Companies deeply invested in the AWS ecosystem seeking a convenient, scalable solution." }
+        },
+        'Google Cloud STT': {
+            id: 'google',
+            color: '#DB4437',
+            tiers: [ { upTo: 500000, rate: 0.016 }, { upTo: 1000000, rate: 0.010 }, { upTo: 2000000, rate: 0.008 }, { upTo: Infinity, rate: 0.004 } ],
+            tiers_logging_on: [ { upTo: 500000, rate: 0.012 }, { upTo: 1000000, rate: 0.007 }, { upTo: 2000000, rate: 0.005 }, { upTo: Infinity, rate: 0.003 } ],
+            addons: { pii: 0, summarization: 0, toxicity: 0, sentiment: 0.0001, speaker_id: 0 },
+            features: { speaker_id: 'Billed per channel', sentiment: '~$1/1k chars', toxicity: '✗', pii: '✔ (via NLP)', summarization: '✔ (via CCAI)' },
+            profile: { pros: ["Excellent recognition quality", "Widest language coverage", "Holistic Contact Center AI suite"], cons: ["Can be complex to set up", "Real-time integration requires more effort"], bestFor: "Enterprises needing top-tier accuracy across a vast number of languages." }
+        },
+        'Microsoft Azure': {
+            id: 'azure',
+            color: '#0078D4',
+            tiers: [ { upTo: Infinity, rate: 0.0167 } ],
+            tiers_commit: [ { upTo: 10000*60, rate: 0.0108 }, { upTo: Infinity, rate: 0.0083 } ],
+            addons: { pii: 0, summarization: 0, toxicity: 0, sentiment: 0.0001, speaker_id: 0.005 },
+            features: { speaker_id: '$0.30/hr', sentiment: '~$1/1k records', toxicity: '✗ (use Content Safety)', pii: '✔ (via Text Analytics)', summarization: '✔' },
+            profile: { pros: ["Superior customization with Custom Speech", "Built-in Speaker ID for biometrics", "Tight integration with Teams & Dynamics 365"], cons: ["API can be less developer-friendly", "Pricing can be complex"], bestFor: "Organizations within the Microsoft ecosystem or those needing highly customized models." }
+        },
+        'Deepgram': {
+            id: 'deepgram',
+            color: '#4BC0C0',
+            tiers: [ { upTo: Infinity, rate: 0.0043 } ],
+            addons: { pii: 0.0020, summarization: 0.0001, toxicity: 0, sentiment: 0, speaker_id: 0.0020 },
+            features: { speaker_id: '✔ ($0.002/min)', sentiment: 'Included', toxicity: '✔ (via model)', pii: '✔ ($0.002/min)', summarization: '✔ (per token)' },
+            profile: { pros: ["Extremely low cost", "Industry-leading speed and accuracy", "Flexible on-prem deployment"], cons: ["Analytics features are newer", "Smaller vendor brand recognition"], bestFor: "Startups and developers prioritizing real-time speed and low cost without sacrificing accuracy." }
+        },
+        'AssemblyAI': {
+            id: 'assemblyai',
+            color: '#EC4899',
+            tiers: [ { upTo: Infinity, rate: 0.0045 } ],
+            addons: { pii: 0.00216, summarization: 0.0005, toxicity: 0.0025, sentiment: 0.00033, speaker_id: 0 },
+            features: { speaker_id: 'Included', sentiment: '✔ ($0.02/hr)', toxicity: '✔ ($0.15/hr)', pii: '✔ ($0.13/hr)', summarization: '✔ ($0.03/hr)' },
+            profile: { pros: ["Feature-rich 'one-stop shop' API", "Excellent developer experience", "Transparent and low pricing"], cons: ["Limited language support (primarily English)", "Younger, less battle-tested models"], bestFor: "Developers who value ease of integration and a comprehensive feature set in a single API call." }
+        },
+        'IBM Watson': {
+            id: 'ibm',
+            color: '#6F6F6F',
+            tiers: [ { upTo: Infinity, rate: 0.02 } ],
+            addons: { pii: 0, summarization: 0, toxicity: 0, sentiment: 0, speaker_id: 0 },
+            features: { speaker_id: 'Included', sentiment: '✔', toxicity: '✗', pii: '✔', summarization: '✗' },
+            profile: { pros: ["Trusted name in enterprise AI", "Standout on-premise deployment capability", "Strong customer support for large clients"], cons: ["Accuracy not consistently best-in-class", "Fewer languages supported", "Fragmented ecosystem"], bestFor: "Large enterprises in regulated industries with strict data residency and security requirements." }
+        },
+        'Speechmatics': {
+            id: 'speechmatics',
+            color: '#8B5CF6',
+            tiers: [ { upTo: Infinity, rate: 0.0173 } ],
+            addons: { pii: 0, summarization: 0, toxicity: 0, sentiment: 0, speaker_id: 0 },
+            features: { speaker_id: 'Included', sentiment: 'Included', toxicity: '✗', pii: '✗', summarization: '✔' },
+            profile: { pros: ["Renowned for accuracy across accents", "Strong language coverage and on-prem options", "Expanding into speech understanding"], cons: ["Higher price than some independents", "Less self-serve, smaller US footprint"], bestFor: "Global call centers requiring high accuracy across diverse accents and languages, especially with GDPR needs." }
+        },
+        'Rev AI': {
+            id: 'revai',
+            color: '#F97316',
+            tiers: [ { upTo: Infinity, rate: 0.025 } ],
+            addons: { pii: 0, summarization: 0.002, toxicity: 0, sentiment: 0.01, speaker_id: 0 },
+            features: { speaker_id: 'Included', sentiment: '✔ ($0.01/min)', toxicity: '✗', pii: '✗', summarization: '✔ ($0.002/min)' },
+            profile: { pros: ["High accuracy automatic transcription", "Option for human transcription for ground truth", "Simple pricing"], cons: ["Higher cost than other APIs", "Fewer built-in analytics features"], bestFor: "Users who need a blend of high-quality automated transcription with the option to escalate to human review." }
+        }
+    };
+
+    // --- Navigation & UI Setup ---
+    const allSections = document.querySelectorAll('.content-section');
+    const allNavLinks = document.querySelectorAll('.nav-link');
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 
-    function switchSection(targetId) {
-        sections.forEach(section => section.classList.toggle('active', section.id === targetId));
-        navLinks.forEach(link => link.classList.toggle('active', link.dataset.section === targetId));
+    const switchSection = (targetId) => {
+        allSections.forEach(s => s.classList.toggle('active', s.id === targetId));
+        allNavLinks.forEach(l => l.classList.toggle('active', l.dataset.section === targetId));
         window.scrollTo(0, 0);
-    }
+        if (targetId === 'cost-analysis') updateCostAnalysis();
+    };
 
-    navLinks.forEach(link => {
+    allNavLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const targetId = e.currentTarget.dataset.section;
             switchSection(targetId);
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
+            if (!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
         });
     });
     mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-
-    // --- Data Store ---
-    const providerData = {
-        'AWS': {
-            features: { diarization: '✔', sentiment: '➕', toxicity: '✔', pii: '✔', summarization: '✔' },
-            cost: {
-                baseTiers: [ { upTo: 250000, rate: 0.024 }, { upTo: 1000000, rate: 0.015 }, { upTo: Infinity, rate: 0.0102 } ],
-                addons: { pii: 0.0144, summarization: 0.0024, toxicity: 0.0036 }
-            },
-            profile: { pros: ["Seamless AWS ecosystem integration", "All-in-one Call Analytics API", "Strong compliance & scale"], cons: ["Higher base cost", "Voice ID is a separate service", "May require custom vocabulary for top accuracy"], bestFor: "Companies deeply invested in the AWS ecosystem seeking a convenient, scalable solution." }
-        },
-        'Google': {
-            features: { diarization: '✔', sentiment: '➕', toxicity: '✗', pii: '✔', summarization: '✔' },
-            cost: {
-                baseTiers: [ { upTo: 500000, rate: 0.016 }, { upTo: 1000000, rate: 0.010 }, { upTo: 2000000, rate: 0.008 }, { upTo: Infinity, rate: 0.004 } ],
-                addons: { pii: 0, summarization: 0, toxicity: 0 } // Included in other services, not priced per-min
-            },
-            profile: { pros: ["Excellent recognition quality", "Widest language coverage", "Holistic Contact Center AI suite"], cons: ["Can be complex to set up", "Real-time integration requires more effort"], bestFor: "Enterprises needing top-tier accuracy across a vast number of languages." }
-        },
-        'Azure': {
-            features: { diarization: '✔', sentiment: '✔', toxicity: '✗', pii: '✔', summarization: '✔' },
-            cost: {
-                baseTiers: [ { upTo: 10000*60, rate: 0.0167 }, { upTo: 50000*60, rate: 0.0083 } ], //Simplified from hourly commitment
-                addons: { pii: 0, summarization: 0, toxicity: 0 }
-            },
-            profile: { pros: ["Superior customization with Custom Speech", "Built-in Speaker ID for biometrics", "Tight integration with Teams & Dynamics 365"], cons: ["API can be less developer-friendly", "Pricing can be complex"], bestFor: "Organizations within the Microsoft ecosystem or those needing highly customized models." }
-        },
-         'Deepgram': {
-            features: { diarization: '✔', sentiment: '✔', toxicity: '✔', pii: '✔', summarization: '✔' },
-            cost: {
-                baseTiers: [ { upTo: Infinity, rate: 0.0043 } ],
-                addons: { pii: 0, summarization: 0.0001, toxicity: 0 } // Summarization per-token, negligible. Others included.
-            },
-            profile: { pros: ["Extremely low cost", "Industry-leading speed and accuracy", "Flexible on-prem deployment"], cons: ["Analytics features are newer", "Smaller vendor brand recognition"], bestFor: "Startups and developers prioritizing real-time speed and low cost without sacrificing accuracy." }
-        },
-        'AssemblyAI': {
-            features: { diarization: '✔', sentiment: '✔', toxicity: '✔', pii: '✔', summarization: '✔' },
-            cost: {
-                baseTiers: [ { upTo: Infinity, rate: 0.0045 } ],
-                addons: { pii: 0.0022, summarization: 0.0005, toxicity: 0.0025 } // converted from per-hour
-            },
-            profile: { pros: ["Feature-rich 'one-stop shop' API", "Excellent developer experience", "Transparent and low pricing"], cons: ["Limited language support (primarily English)", "Younger, less battle-tested models"], bestFor: "Developers who value ease of integration and a comprehensive feature set in a single API call." }
-        },
-        'IBM': {
-            features: { diarization: '✔', sentiment: '✔', toxicity: '✗', pii: '✔', summarization: '✗' },
-            cost: {
-                baseTiers: [ { upTo: Infinity, rate: 0.02 } ],
-                addons: { pii: 0, summarization: 0, toxicity: 0 }
-            },
-            profile: { pros: ["Trusted name in enterprise AI", "Standout on-premise deployment capability", "Strong customer support for large clients"], cons: ["Accuracy not consistently best-in-class", "Fewer languages supported", "Fragmented ecosystem"], bestFor: "Large enterprises in regulated industries with strict data residency and security requirements." }
-        }
-    };
 
     // --- Tab 2: Feature Comparison Table ---
     const featuresTableBody = document.getElementById('features-table-body');
     Object.keys(providerData).forEach(name => {
         const p = providerData[name];
-        const row = document.createElement('tr');
-        row.innerHTML = `
+        featuresTableBody.innerHTML += `<tr>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${name}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-center">${p.features.diarization}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-center">${p.features.speaker_id}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-center">${p.features.sentiment}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-center">${p.features.toxicity}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-center">${p.features.pii}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-center">${p.features.summarization}</td>
-        `;
-        featuresTableBody.appendChild(row);
-    });
-
-    // --- Tab 3: Interactive Cost Analysis ---
-    const hoursSlider = document.getElementById('hours-slider');
-    const hoursLabel = document.getElementById('hours-label');
-    const addonsCheckboxes = document.getElementById('addons-checkboxes');
-    const costBreakdownContainer = document.getElementById('cost-breakdown-container');
-    const costChartCanvas = document.getElementById('cost-chart');
-    let costChart;
-
-    const availableAddons = { 'pii': 'PII Redaction', 'summarization': 'Summarization', 'toxicity': 'Toxicity Detection' };
-    Object.keys(availableAddons).forEach(key => {
-        addonsCheckboxes.innerHTML += `
-            <div class="flex items-center">
-                <input id="addon-${key}" name="addon" value="${key}" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                <label for="addon-${key}" class="ml-2 text-sm text-gray-700">${availableAddons[key]}</label>
-            </div>`;
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-center">${p.features.summarization}</td></tr>`;
     });
     
-    function calculateCost(providerName, monthlyMinutes, selectedAddons) {
-        const p = providerData[providerName];
-        let baseCost = 0;
-        let remainingMinutes = monthlyMinutes;
-
-        p.cost.baseTiers.forEach((tier, index) => {
-            const prevTierLimit = index === 0 ? 0 : p.cost.baseTiers[index - 1].upTo;
-            const minutesInTier = Math.min(remainingMinutes, tier.upTo - prevTierLimit);
-            if (minutesInTier > 0) {
-                baseCost += minutesInTier * tier.rate;
-                remainingMinutes -= minutesInTier;
-            }
-        });
-
-        let addonCost = 0;
-        selectedAddons.forEach(addon => {
-            if (p.cost.addons[addon]) {
-                addonCost += monthlyMinutes * p.cost.addons[addon];
-            }
-        });
-        
-        return { total: baseCost + addonCost, base: baseCost, addons: addonCost };
-    }
-
-    function updateCostAnalysis() {
-        const monthlyHours = parseInt(hoursSlider.value);
-        const monthlyMinutes = monthlyHours * 60;
-        hoursLabel.textContent = `${monthlyHours.toLocaleString()}`;
-
-        const selectedAddons = Array.from(document.querySelectorAll('#addons-checkboxes input:checked')).map(el => el.value);
-        
-        const providerNames = Object.keys(providerData);
-        const costData = providerNames.map(name => calculateCost(name, monthlyMinutes, selectedAddons));
-        
-        // Update Chart
-        if (costChart) costChart.destroy();
-        costChart = new Chart(costChartCanvas, {
-            type: 'bar',
-            data: {
-                labels: providerNames,
-                datasets: [{
-                    label: 'Estimated Monthly Cost',
-                    data: costData.map(c => c.total),
-                    backgroundColor: ['#FF9900', '#DB4437', '#0078D4', '#4BC0C0', '#F472B6', '#6F6F6F'],
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false }, title: { display: true, text: 'Estimated Monthly Cost (USD)' } },
-                scales: { y: { beginAtZero: true } }
-            }
-        });
-
-        // Update Breakdown Cards
-        costBreakdownContainer.innerHTML = '';
-        providerNames.forEach((name, i) => {
-            const cost = costData[i];
-            const card = document.createElement('div');
-            card.className = 'bg-gray-50 border p-4 rounded-lg shadow-sm';
-            card.innerHTML = `
-                <h4 class="font-bold text-lg text-gray-800">${name}</h4>
-                <p class="text-2xl font-bold text-blue-600 my-2">$${cost.total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
-                <div class="text-xs text-gray-500 space-y-1">
-                    <p>Base Transcription: $${cost.base.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
-                    <p>Feature Add-ons: $${cost.addons.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
-                </div>
-            `;
-            costBreakdownContainer.appendChild(card);
-        });
-    }
-
-    hoursSlider.addEventListener('input', updateCostAnalysis);
-    addonsCheckboxes.addEventListener('change', updateCostAnalysis);
-    updateCostAnalysis();
-
     // --- Tab 5: Provider Profiles ---
     const profileTabsContainer = document.getElementById('profile-tabs');
     const profileContentContainer = document.getElementById('profile-content');
-    
     Object.keys(providerData).forEach((name, index) => {
         const p = providerData[name];
         const tab = document.createElement('button');
-        tab.className = 'profile-tab text-left w-full p-3 rounded-md transition-colors duration-200 whitespace-nowrap shrink-0';
+        tab.className = `profile-tab text-left w-full p-3 rounded-md transition-colors duration-200 whitespace-nowrap shrink-0`;
         tab.textContent = name;
         tab.dataset.profile = name;
         if(index === 0) tab.classList.add('active', 'bg-blue-500', 'text-white', 'shadow');
@@ -398,26 +248,154 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         profileTabsContainer.appendChild(tab);
     });
-    
-    function renderProfileContent(profileName) {
+
+    const renderProfileContent = (profileName) => {
         const p = providerData[profileName].profile;
-        profileContentContainer.innerHTML = `
-            <div class="border rounded-lg p-6 bg-gray-50 animate-fadeIn">
-                <h3 class="text-2xl font-bold mb-4 text-gray-900">${profileName}</h3>
-                <div class="mb-6 bg-blue-100 text-blue-800 p-4 rounded-lg"><p class="font-semibold">Best For:</p><p>${p.bestFor}</p></div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-bold text-lg mb-2 text-green-600">Pros</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-700">${p.pros.map(pro => `<li>${pro}</li>`).join('')}</ul>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-lg mb-2 text-red-600">Cons</h4>
-                        <ul class="list-disc list-inside space-y-1 text-gray-700">${p.cons.map(con => `<li>${con}</li>`).join('')}</ul>
-                    </div>
-                </div>
-            </div>`;
-    }
-    renderProfileContent('AWS');
+        profileContentContainer.innerHTML = `<div class="border rounded-lg p-6 bg-gray-50 animate-fadeIn"><h3 class="text-2xl font-bold mb-4 text-gray-900">${profileName}</h3><div class="mb-6 bg-blue-100 text-blue-800 p-4 rounded-lg"><p class="font-semibold">Best For:</p><p>${p.bestFor}</p></div><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div><h4 class="font-bold text-lg mb-2 text-green-600">Pros</h4><ul class="list-disc list-inside space-y-1 text-gray-700">${p.pros.map(pro => `<li>${pro}</li>`).join('')}</ul></div><div><h4 class="font-bold text-lg mb-2 text-red-600">Cons</h4><ul class="list-disc list-inside space-y-1 text-gray-700">${p.cons.map(con => `<li>${con}</li>`).join('')}</ul></div></div></div>`;
+    };
+    renderProfileContent('Amazon Transcribe');
+
+
+    // --- Cost Calculator Logic ---
+    const vendorCheckboxes = document.getElementById('vendor-checkboxes');
+    const callVolumeInput = document.getElementById('call-volume');
+    const timeUnitSelect = document.getElementById('time-unit');
+    const addonsCheckboxes = document.getElementById('addons-checkboxes');
+    const specialOptionsContainer = document.getElementById('special-options-container');
+    const costBreakdownContainer = document.getElementById('cost-breakdown-container');
+    const costChartCanvas = document.getElementById('cost-chart');
+    let costChart;
+
+    const availableAddons = { speaker_id: 'Speaker ID', pii: 'PII Redaction', summarization: 'Summarization', sentiment: 'Sentiment Analysis', toxicity: 'Toxicity Detection' };
+    
+    // Setup Controls
+    Object.keys(providerData).forEach(name => {
+        vendorCheckboxes.innerHTML += `<div class="flex items-center"><input id="vendor-${providerData[name].id}" value="${name}" type="checkbox" checked class="vendor-checkbox h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"><label for="vendor-${providerData[name].id}" class="ml-2 text-sm text-gray-700">${name}</label></div>`;
+    });
+    Object.keys(availableAddons).forEach(key => {
+        addonsCheckboxes.innerHTML += `<div class="flex items-center"><input id="addon-${key}" value="${key}" type="checkbox" class="addon-checkbox h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"><label for="addon-${key}" class="ml-2 text-sm text-gray-700">${availableAddons[key]}</label></div>`;
+    });
+    specialOptionsContainer.innerHTML = `
+        <div class="flex items-center"><input type="checkbox" id="aws-bundle-toggle" class="h-4 w-4 rounded"><label for="aws-bundle-toggle" class="ml-2">Use AWS Call Analytics Bundle</label></div>
+        <div class="flex items-center"><input type="checkbox" id="google-logging-toggle" class="h-4 w-4 rounded"><label for="google-logging-toggle" class="ml-2">Enable Google Data Logging (Cheaper)</label></div>
+        <div class="flex items-center"><input type="checkbox" id="azure-commit-toggle" class="h-4 w-4 rounded"><label for="azure-commit-toggle" class="ml-2">Use Azure Commitment Tier</label></div>
+    `;
+
+    const calculateCost = (providerName, monthlyMinutes, selectedAddons, options) => {
+        const p = providerData[providerName];
+        if (!p) return { total: 0, breakdown: {} };
+
+        let baseCost = 0;
+        let breakdown = {};
+        
+        let pricingTiers = p.tiers;
+        // Check for special options
+        if (providerName === 'Amazon Transcribe' && options.useAwsBundle && monthlyMinutes <= p.bundles.call_analytics.upTo) {
+             baseCost = monthlyMinutes * p.bundles.call_analytics.rate;
+        } else {
+            if (providerName === 'Google Cloud STT' && options.isGoogleLoggingOn) pricingTiers = p.tiers_logging_on;
+            if (providerName === 'Microsoft Azure' && options.useAzureCommit) pricingTiers = p.tiers_commit;
+            
+            let remainingMinutes = monthlyMinutes;
+            let lastTierLimit = 0;
+            for (const tier of pricingTiers) {
+                const minutesInThisTier = Math.min(remainingMinutes, tier.upTo - lastTierLimit);
+                if (minutesInThisTier > 0) {
+                    baseCost += minutesInThisTier * tier.rate;
+                    remainingMinutes -= minutesInThisTier;
+                }
+                lastTierLimit = tier.upTo;
+                if (remainingMinutes <= 0) break;
+            }
+        }
+        breakdown['Base Transcription'] = baseCost;
+
+        selectedAddons.forEach(addon => {
+            if (p.addons[addon] > 0) {
+                const addonCost = monthlyMinutes * p.addons[addon];
+                breakdown[availableAddons[addon]] = (breakdown[availableAddons[addon]] || 0) + addonCost;
+            }
+        });
+
+        const total = Object.values(breakdown).reduce((a, b) => a + b, 0);
+        return { total, breakdown };
+    };
+
+    const updateCostAnalysis = () => {
+        // Get state from all controls
+        const selectedVendors = Array.from(document.querySelectorAll('.vendor-checkbox:checked')).map(el => el.value);
+        let volume = parseFloat(callVolumeInput.value) || 0;
+        const unit = timeUnitSelect.value;
+        const selectedAddons = Array.from(document.querySelectorAll('.addon-checkbox:checked')).map(el => el.value);
+        const options = {
+            useAwsBundle: document.getElementById('aws-bundle-toggle').checked,
+            isGoogleLoggingOn: document.getElementById('google-logging-toggle').checked,
+            useAzureCommit: document.getElementById('azure-commit-toggle').checked,
+        };
+
+        // Normalize volume to monthly minutes
+        let monthlyMinutes = 0;
+        if (unit === 'day') monthlyMinutes = volume * 30 * 60;
+        else if (unit === 'year') monthlyMinutes = (volume / 12) * 60;
+        else monthlyMinutes = volume * 60;
+        
+        // Calculate costs for selected vendors
+        const costResults = selectedVendors.map(name => ({
+            name,
+            ...calculateCost(name, monthlyMinutes, selectedAddons, options)
+        }));
+
+        // Render Chart
+        const chartLabels = costResults.map(r => r.name);
+        const addonKeys = Object.keys(availableAddons);
+        const chartDatasets = [{ label: 'Base Transcription', data: costResults.map(r => r.breakdown['Base Transcription'] || 0), backgroundColor: '#60A5FA' }];
+        
+        addonKeys.forEach((key, i) => {
+            chartDatasets.push({
+                label: availableAddons[key],
+                data: costResults.map(r => r.breakdown[availableAddons[key]] || 0),
+                backgroundColor: ['#F87171', '#FBBF24', '#34D399', '#A78BFA', '#F472B6'][i % 5]
+            });
+        });
+
+        if (costChart) costChart.destroy();
+        costChart = new Chart(costChartCanvas, {
+            type: 'bar',
+            data: { labels: chartLabels, datasets: chartDatasets },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: { x: { stacked: true, title: { display: true, text: 'Estimated Monthly Cost (USD)' } }, y: { stacked: true } },
+                plugins: { title: { display: true, text: 'Cost Comparison (Stacked by Feature)' }, legend: { position: 'bottom' } }
+            }
+        });
+        
+        // Render Breakdown Cards
+        costBreakdownContainer.innerHTML = '';
+        costResults.sort((a,b) => a.total - b.total).forEach(res => {
+            let breakdownHTML = '';
+            Object.entries(res.breakdown).forEach(([key, value]) => {
+                breakdownHTML += `<p>${key}: <strong>$${value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></p>`;
+            });
+            costBreakdownContainer.innerHTML += `
+                <div class="bg-gray-100 border p-4 rounded-lg">
+                    <h4 class="font-bold text-lg text-gray-800">${res.name}</h4>
+                    <p class="text-2xl font-bold text-blue-600 my-2">$${res.total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
+                    <div class="text-xs text-gray-600 space-y-1">${breakdownHTML}</div>
+                </div>`;
+        });
+    };
+
+    // Add event listeners
+    document.querySelectorAll('.vendor-checkbox, .addon-checkbox, #aws-bundle-toggle, #google-logging-toggle, #azure-commit-toggle').forEach(el => {
+        el.addEventListener('change', updateCostAnalysis);
+    });
+    callVolumeInput.addEventListener('input', updateCostAnalysis);
+    timeUnitSelect.addEventListener('change', updateCostAnalysis);
+
+    // Initial run
+    updateCostAnalysis();
 });
 </script>
 </body>
