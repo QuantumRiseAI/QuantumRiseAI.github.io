@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio-to-Text Transcription Services for Call Centers – A Comparative Analysis</title>
+    <style>
+        /* --- Google Font Import --- */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+        /* --- CSS Variables (Color Palette) --- */
+        :root {
+            --background-color: #F8F9FA;
+            --text-color: #212529;
+            --primary-color: #0056b3;
+            --primary-hover-color: #004494;
+            --border-color: #DEE2E6;
+            --card-background-color: #FFFFFF;
+            --header-background-color: rgba(255, 255, 255, 0.9);
+            --subtle-text-color: #6c757d;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --border-radius: 8px;
+        }
+
+        /* --- General & Reset --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.7;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header.site-header {
+            background-color: var(--header-background-color);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+        
+        main {
+            padding-top: 2rem;
+        }
+        
+        footer.site-footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--subtle-text-color);
+            font-size: 0.9rem;
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 3rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        h4 {
+             font-size: 1.2rem;
+             margin-top: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            margin-bottom: 1rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background-color: #e9ecef;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        strong {
+            color: var(--primary-color);
+        }
+
+        /* --- Components: Table of Contents --- */
+        .toc {
+            background-color: var(--card-background-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .toc-title {
+            font-size: 1.5rem;
+            margin: 0 0 1rem 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toc-title .toggle-icon::after {
+            content: '▲';
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .toc.collapsed .toc-title .toggle-icon::after {
+            transform: rotate(180deg);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        
+        .toc.collapsed .toc-list {
+             max-height: 0;
+        }
+
+        .toc-list li { margin-bottom: 0.5rem; }
+        .toc-list li a { color: var(--text-color); }
+        .toc-list li a:hover { color: var(--primary-color); }
+        .toc-h3 { margin-left: 20px; font-size: 0.9em; }
+
+        /* --- Components: Interactive Table --- */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--card-background-color);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        thead th {
+            background-color: #f8f9fa;
+            font-weight: 700;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+        }
+        
+        thead th:hover {
+            background-color: #e9ecef;
+        }
+
+        thead th .sort-indicator {
+            display: inline-block;
+            margin-left: 8px;
+            opacity: 0.5;
+        }
+        
+        thead th.sorted .sort-indicator {
+            opacity: 1;
+        }
+        
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tbody tr:hover {
+            background-color: #f1f3f5;
+        }
+
+        /* --- Components: Accordion --- */
+        .accordion-header {
+            cursor: pointer;
+            padding: 1rem;
+            background-color: #f1f3f5;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        
+        .accordion-header:hover {
+            background-color: #e9ecef;
+        }
+        
+        .accordion-header h4 {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .accordion-header .icon::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-header.active .icon::after {
+            transform: rotate(45deg);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            padding: 0 1rem;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+        }
+        
+        .accordion-content.active {
+            padding: 1.5rem 1rem;
+        }
+
+        /* --- Components: Tabs --- */
+        .tabs-container {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid var(--border-color);
+            padding-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .tab-button {
+            padding: 10px 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: left;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .tab-button:hover {
+            background-color: #e9ecef;
+        }
+        
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 700;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Components: Tooltip --- */
+        .tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted var(--primary-color);
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--text-color);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--text-color) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* --- Components: Modal (Lightbox) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.85);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 1200px;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #bbb;
+        }
+
+        .chart-placeholder {
+            cursor: pointer;
+            border: 1px dashed var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            transition: background-color 0.3s;
+        }
+        
+        .chart-placeholder:hover {
+            background-color: #e9ecef;
+        }
+        
+        .chart-placeholder img {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+        }
+        
+        .chart-placeholder figcaption {
+            margin-top: 0.5rem;
+            color: var(--subtle-text-color);
+        }
+
+        /* --- Components: Back to Top Button --- */
+        #back-to-top {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s, opacity 0.5s;
+        }
+        
+        #back-to-top:hover {
+            background-color: var(--primary-hover-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.75rem; }
+            .container { padding: 15px; }
+            
+            .toc-title {
+                padding: 0.5rem;
+            }
+
+            .tabs-container {
+                flex-direction: column;
+            }
+
+            .tab-buttons {
+                flex-direction: row;
+                overflow-x: auto;
+                border-right: none;
+                border-bottom: 2px solid var(--border-color);
+                padding-right: 0;
+                padding-bottom: 0.5rem;
+            }
+            .tab-button {
+                flex-shrink: 0;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <h1>Audio-to-Text Transcription Services for Call Centers</h1>
+    </header>
+
+    <div class="container">
+        <main>
+            <div id="table-of-contents"></div>
+            
+            <section id="overview-and-feature-comparison">
+                <h2>Overview and Feature Comparison</h2>
+                <p>Modern call centers leverage speech transcription <span class="tooltip">APIs<span class="tooltip-text">Application Programming Interface: A way for two or more computer programs to communicate with each other.</span></span> not only to convert call audio into text but also to derive deeper insights from conversations. The following table summarizes key features across major cloud platforms and independent providers, focusing on core transcription capabilities and advanced analytics.</p>
+
+                <div class="table-container">
+                    <table id="feature-comparison-table">
+                        <caption>Table 1: Feature Support by Provider (✓=supported, ✘=not available)</caption>
+                        <thead>
+                            <tr>
+                                <th>Provider</th>
+                                <th class="sortable">Real-Time & Batch</th>
+                                <th class="sortable">Speaker Diarization</th>
+                                <th class="sortable">Sentiment Analysis</th>
+                                <th class="sortable">Toxicity Detection</th>
+                                <th class="sortable">PII Redaction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>AWS (Amazon Transcribe)</td><td>✓</td><td>✓ (Labels multiple speakers)</td><td>✓ (via Contact Lens/Comprehend)</td><td>✓ (Toxicity Detection feature)</td><td>✓ (auto redaction add-on)</td></tr>
+                            <tr><td>Google Cloud Speech-to-Text</td><td>✓</td><td>✓ (Speaker diarization option)</td><td>✓ (via Cloud NLP API)</td><td>✘ (custom solution only)</td><td>✓ (via Cloud NLP)</td></tr>
+                            <tr><td>Microsoft Azure Speech</td><td>✓</td><td>✓ (Diarization in batch)</td><td>✓ (via Azure AI sentiment)</td><td>✘ (use Content Safety API)</td><td>✓ (PII extraction)</td></tr>
+                            <tr><td>IBM Watson STT</td><td>✓</td><td>✓ (Speaker labels)</td><td>✓ (via Watson NLU Tone)</td><td>✘ (custom via NLU)</td><td>✘ (custom data handling)</td></tr>
+                            <tr><td>Deepgram</td><td>✓</td><td>✓ (Speaker detection)</td><td>✓ (Built-in AI model)</td><td>✓ (content categories)</td><td>✓ (auto redact optional)</td></tr>
+                            <tr><td>AssemblyAI</td><td>✓</td><td>✓ (Speaker labels)</td><td>✓ (Sentence-level sentiment)</td><td>✓ (Content Moderation model)</td><td>✓ (PII redaction add-on)</td></tr>
+                            <tr><td>Speechmatics</td><td>✓</td><td>✓ (Speaker diarization)</td><td>✓ (Sentence sentiment)</td><td>✘ (focus on sentiment only)</td><td>✘ (not explicit)</td></tr>
+                            <tr><td>Others (Rev AI, etc.)</td><td>✓</td><td>✓ (Speaker labeling)</td><td>✘ (requires external API)</td><td>✘</td><td>✘</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <section id="latency-and-real-time-performance">
+                <h2>Latency and Real-Time Performance</h2>
+                <p>Low latency is critical for real-time agent assist and customer experiences. Specialized speech <span class="tooltip">AI<span class="tooltip-text">Artificial Intelligence: The simulation of human intelligence in machines.</span></span> providers tend to excel here. Deepgram and AssemblyAI advertise sub-second response times, while major cloud vendors are typically in the 1-3 second range for final results.</p>
+                <figure class="chart-placeholder" id="latency-chart-placeholder">
+                    <img src="https://via.placeholder.com/800x400?text=Placeholder:+Median+Streaming+Latency+(ms)" alt="Placeholder chart showing median streaming latency comparison">
+                    <figcaption>Click to enlarge: A conceptual comparison of streaming latency among providers.</figcaption>
+                </figure>
+            </section>
+            
+            <section id="on-premises-solutions-and-deployment-flexibility">
+                <h2>On-Premises Solutions and Deployment Flexibility</h2>
+                <p>Many call centers, especially in regulated industries, require on-premises or private cloud deployments for data control. Several providers cater to this need, offering self-hosted solutions.</p>
+                
+                <div class="accordion">
+                    <div class="accordion-header">
+                        <h4>Deepgram & Speechmatics</h4>
+                        <div class="icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Both <strong>Deepgram</strong> and <strong>Speechmatics</strong> offer enterprise editions of their <span class="tooltip">ASR<span class="tooltip-text">Automatic Speech Recognition: Technology that enables the recognition and translation of spoken language into text by computers.</span></span> engines that can be deployed on-premises using containers (e.g., Kubernetes), giving organizations full data control in their own data centers.</p>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header">
+                        <h4>IBM & Microsoft</h4>
+                        <div class="icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>IBM Watson</strong> explicitly supports deployment on any cloud or on-premises via IBM Cloud Pak for Data. <strong>Microsoft Azure</strong> provides containerized versions of some speech services for private scenarios, a strategy bolstered by their acquisition of Nuance, a long-time leader in on-prem call center solutions.</p>
+                    </div>
+                </div>
+
+                 <div class="accordion">
+                    <div class="accordion-header">
+                        <h4>Full Analytics Platforms (NICE, CallMiner)</h4>
+                        <div class="icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Full-fledged platforms like <strong>NICE Nexidia</strong> and <strong>CallMiner Eureka</strong> are often deployed on-premise. They provide not just transcription but a complete, turnkey analytics suite with dashboards, sentiment analysis, and agent scoring, though at a significantly higher cost and complexity.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="cost-analysis-and-pricing-models">
+                <h2>Cost Analysis and Pricing Models</h2>
+                <p>Costs vary widely across providers. Major cloud vendors charge on a tiered per-minute basis, while independent <span class="tooltip">API<span class="tooltip-text">Application Programming Interface: A way for two or more computer programs to communicate with each other.</span></span> providers often have lower list prices.</p>
+
+                <figure class="chart-placeholder" id="cost-chart-placeholder">
+                     <img src="https://via.placeholder.com/800x400?text=Placeholder:+Cost+per+Audio+Hour+($)" alt="Placeholder chart showing cost per audio hour comparison">
+                     <figcaption>Click to enlarge: A conceptual comparison of base transcription cost per hour.</figcaption>
+                </figure>
+
+                <div class="accordion">
+                    <div class="accordion-header">
+                        <h4>Major Cloud Providers (AWS, Google, Azure)</h4>
+                        <div class="icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                         <p>These providers typically have a base rate between <strong>$0.96 to $1.44 per hour</strong>. Pricing drops with high-volume usage or commitment plans. For example, AWS Transcribe starts at $0.024/minute, while Google's STT V2 is around $0.016/minute. Analytics features are often priced as add-ons.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion">
+                    <div class="accordion-header">
+                        <h4>Independent API Providers (Deepgram, AssemblyAI)</h4>
+                        <div class="icon"></div>
+                    </div>
+                    <div class="accordion-content">
+                         <p>These providers are significantly more cost-effective for transcription, with prices around <strong>$0.25 to $0.30 per hour</strong>. Deepgram's Nova model is priced at ~$0.0043/minute, and AssemblyAI is similar at ~$0.0045/minute. Their add-on features (sentiment, summarization) are also priced very competitively, often adding only a few cents per hour.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="security-and-data-protection">
+                <h2>Security and Data Protection</h2>
+                <p>Security is paramount. All major providers offer robust security features, including data encryption in transit and at rest, and hold key compliance certifications like <span class="tooltip">SOC 2<span class="tooltip-text">Service Organization Control 2: A report on controls at a service organization relevant to security, availability, processing integrity, confidentiality, and privacy.</span></span>, <span class="tooltip">ISO 27001<span class="tooltip-text">An international standard on how to manage information security.</span></span>, and <span class="tooltip">HIPAA<span class="tooltip-text">Health Insurance Portability and Accountability Act: A US federal law that required the creation of national standards to protect sensitive patient health information.</span></span> eligibility.</p>
+                 <ul>
+                    <li><strong>Data Privacy Policies:</strong> Most providers do not use customer data to train models unless you explicitly opt-in. Google's "data logging disabled" mode is a key example.</li>
+                    <li><strong>PII Redaction:</strong> Features to automatically redact <span class="tooltip">PII<span class="tooltip-text">Personally Identifiable Information: Any data that could potentially identify a specific individual.</span></span> are crucial for compliance with regulations like <span class="tooltip">GDPR<span class="tooltip-text">General Data Protection Regulation: A regulation in EU law on data protection and privacy.</span></span>.</li>
+                    <li><strong>On-Premises Control:</strong> For maximum security, on-premise solutions (offered by Deepgram, Speechmatics, IBM) ensure data never leaves the organization's environment.</li>
+                </ul>
+            </section>
+            
+            <section id="language-support-and-accuracy">
+                <h2>Language Support and Accuracy</h2>
+                 <p>Language coverage varies. Google leads with 125+ languages, while Azure supports over 100. The independent providers are catching up, with Deepgram and Speechmatics supporting over 30 languages. For English, accuracy is highly competitive across the board, with providers like Deepgram and AssemblyAI often leading in independent benchmarks.</p>
+            </section>
+            
+            <section id="pros-and-cons-of-each-offering">
+                <h2>Pros and Cons of Each Offering</h2>
+                <div class="tabs-container">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" data-tab="aws">AWS</button>
+                        <button class="tab-button" data-tab="google">Google Cloud</button>
+                        <button class="tab-button" data-tab="azure">Microsoft Azure</button>
+                        <button class="tab-button" data-tab="deepgram">Deepgram</button>
+                        <button class="tab-button" data-tab="assemblyai">AssemblyAI</button>
+                    </div>
+                    <div class="tab-contents">
+                        <div id="aws" class="tab-content active">
+                            <h3>AWS (Amazon Transcribe)</h3>
+                            <p><strong>Pros:</strong> Seamless integration with the AWS ecosystem, all-in-one Call Analytics API, strong compliance, and global scale.</p>
+                            <p><strong>Cons:</strong> Higher base cost than competitors, some features (like Voice ID) are separate, and accuracy may need tuning with custom vocabularies for specific domains.</p>
+                        </div>
+                        <div id="google" class="tab-content">
+                            <h3>Google Cloud (Speech-to-Text & CCAI)</h3>
+                            <p><strong>Pros:</strong> Top-notch recognition quality, widest language coverage, and a holistic suite of contact center AI tools.</p>
+                            <p><strong>Cons:</strong> Can be complex to set up, real-time features may require more integration effort, and some enterprises remain cautious of the platform for sensitive data.</p>
+                        </div>
+                         <div id="azure" class="tab-content">
+                            <h3>Microsoft Azure (Cognitive Speech Services)</h3>
+                            <p><strong>Pros:</strong> Excellent customization capabilities (Custom Speech), built-in Speaker ID, and tight integration with Microsoft's enterprise ecosystem (Teams, Dynamics 365).</p>
+                            <p><strong>Cons:</strong> API can feel less developer-friendly than newer alternatives, and pricing can be complex despite being competitive with commitment.</p>
+                        </div>
+                        <div id="deepgram" class="tab-content">
+                            <h3>Deepgram</h3>
+                             <p><strong>Pros:</strong> Extremely low cost, leading accuracy and speed, flexible on-prem deployment options, and powerful features like keyword boosting.</p>
+                             <p><strong>Cons:</strong> Analytics features are newer and less integrated than some rivals, and as a smaller vendor, it faces more scrutiny in enterprise security reviews.</p>
+                        </div>
+                        <div id="assemblyai" class="tab-content">
+                            <h3>AssemblyAI</h3>
+                            <p><strong>Pros:</strong> Extremely feature-rich "one-stop shop" API (get transcript, sentiment, summary, etc., in one call), developer-friendly documentation, and very low pricing.</p>
+                             <p><strong>Cons:</strong> Limited language support (primarily English-focused), and as a young company, its models are less battle-tested across diverse global datasets.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="conclusion">
+                <h2>Conclusion</h2>
+                <p>The landscape of call center transcription and analytics is rich and evolving. The choice of provider hinges on a trade-off between turnkey solutions vs. customizable APIs and cloud vs. on-prem deployments. For real-time latency, independent providers like Deepgram and AssemblyAI shine. For broad language support and enterprise integration, Google and Microsoft are strong contenders. Ultimately, the rapid cost reduction and feature innovation across all platforms mean that 100% call analysis is now an accessible and powerful tool for any call center aiming to improve customer experience and agent productivity.</p>
+            </section>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>Report generated by Gemini on <span id="generation-date"></span>.</p>
+    </footer>
+
+    <button id="back-to-top" title="Go to top">↑</button>
+
+    <div id="image-modal" class="modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Table of Contents Generation ---
+            const tocContainer = document.getElementById('table-of-contents');
+            if (tocContainer) {
+                const headings = document.querySelectorAll('main h2, main h3');
+                let tocHTML = `
+                    <div class="toc" id="toc-component">
+                        <h3 class="toc-title">Table of Contents <span class="toggle-icon"></span></h3>
+                        <ul class="toc-list">
+                `;
+                headings.forEach(h => {
+                    const id = h.textContent.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                    h.id = id;
+                    const isH3 = h.tagName === 'H3';
+                    tocHTML += `<li class="${isH3 ? 'toc-h3' : ''}"><a href="#${id}">${h.textContent}</a></li>`;
+                });
+                tocHTML += '</ul></div>';
+                tocContainer.innerHTML = tocHTML;
+
+                // ToC Collapse on mobile
+                const tocComponent = document.getElementById('toc-component');
+                const tocTitle = tocComponent.querySelector('.toc-title');
+                if (window.innerWidth <= 768) {
+                    tocComponent.classList.add('collapsed');
+                }
+                tocTitle.addEventListener('click', () => {
+                    tocComponent.classList.toggle('collapsed');
+                });
+            }
+
+            // --- Interactive Table Sorting ---
+            const sortableTable = document.getElementById('feature-comparison-table');
+            if (sortableTable) {
+                const headers = sortableTable.querySelectorAll('thead th.sortable');
+                headers.forEach((header, index) => {
+                    header.innerHTML += '<span class="sort-indicator">↕</span>';
+                    header.addEventListener('click', () => {
+                        sortTableByColumn(sortableTable, index);
+                    });
+                });
+            }
+            
+            let sortDirections = [];
+            function sortTableByColumn(table, columnIndex) {
+                const tbody = table.querySelector('tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                const headers = table.querySelectorAll('thead th');
+                
+                const currentDirection = sortDirections[columnIndex] || 'asc';
+                const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+                sortDirections = []; // Reset other columns
+                sortDirections[columnIndex] = newDirection;
+
+                // Update header styles
+                headers.forEach(h => {
+                    h.classList.remove('sorted');
+                    const indicator = h.querySelector('.sort-indicator');
+                    if (indicator) indicator.textContent = '↕';
+                });
+                headers[columnIndex].classList.add('sorted');
+                headers[columnIndex].querySelector('.sort-indicator').textContent = newDirection === 'asc' ? '▲' : '▼';
+
+                rows.sort((a, b) => {
+                    const aText = a.children[columnIndex].textContent.trim();
+                    const bText = b.children[columnIndex].textContent.trim();
+
+                    if (aText < bText) return newDirection === 'asc' ? -1 : 1;
+                    if (aText > bText) return newDirection === 'asc' ? 1 : -1;
+                    return 0;
+                });
+                
+                tbody.innerHTML = '';
+                rows.forEach(row => tbody.appendChild(row));
+            }
+
+            // --- Accordion Logic ---
+            const accordions = document.querySelectorAll('.accordion-header');
+            accordions.forEach(accordion => {
+                accordion.addEventListener('click', () => {
+                    const content = accordion.nextElementSibling;
+                    accordion.classList.toggle('active');
+                    content.classList.toggle('active');
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // --- Tab Logic ---
+            const tabContainer = document.querySelector('.tabs-container');
+            if (tabContainer) {
+                const tabButtons = tabContainer.querySelectorAll('.tab-button');
+                const tabContents = tabContainer.querySelectorAll('.tab-content');
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const targetTabId = button.dataset.tab;
+
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        
+                        tabContents.forEach(content => {
+                            content.classList.remove('active');
+                            if (content.id === targetTabId) {
+                                content.classList.add('active');
+                            }
+                        });
+                    });
+                });
+            }
+
+            // --- Modal (Lightbox) Logic ---
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            const placeholders = document.querySelectorAll('.chart-placeholder');
+            
+            placeholders.forEach(placeholder => {
+                placeholder.addEventListener('click', () => {
+                    modal.style.display = "block";
+                    modalImg.src = placeholder.querySelector('img').src.replace('800x400', '1200x600');
+                });
+            });
+
+            const closeModal = document.querySelector('.modal-close');
+            closeModal.onclick = () => {
+                modal.style.display = "none";
+            }
+            window.onclick = (event) => {
+                if (event.target == modal) {
+                     modal.style.display = "none";
+                }
+            }
+
+            // --- Back to Top Button ---
+            const backToTopButton = document.getElementById('back-to-top');
+            window.onscroll = () => {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    backToTopButton.style.display = "block";
+                } else {
+                    backToTopButton.style.display = "none";
+                }
+            };
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // --- Footer Date ---
+            document.getElementById('generation-date').textContent = new Date().toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+        });
+    </script>
+
+</body>
+</html>
